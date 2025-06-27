@@ -18,3 +18,13 @@ func CreateProduct(product *domain.Product) error {
 	}
 	return nil
 }
+
+func FindProducts() ([]domain.Product, error) {
+	context, cancel := context.WithTimeout(context.TODO(), time.Second*15)
+	defer cancel()
+	products, err := repository.FindAll(context)
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
+}

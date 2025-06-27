@@ -12,10 +12,6 @@ import (
 
 func HandleCreateProduct(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
 	body := r.Body
 	defer r.Body.Close()
 
@@ -49,4 +45,18 @@ func HandleCreateProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, "Product Created Successfully")
+}
+
+func HandleFindProducts(w http.ResponseWriter, r *http.Request) {
+
+	products, err := usecase.FindProducts()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	encoder := json.NewEncoder(w)
+	encoder.Encode(products)
 }
