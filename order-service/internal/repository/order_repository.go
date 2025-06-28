@@ -26,6 +26,6 @@ func init() {
 }
 
 func Save(order *domain.Order) error {
-	result := database.Create(order)
+	result := database.Create(&order)
 	return result.Error
 }

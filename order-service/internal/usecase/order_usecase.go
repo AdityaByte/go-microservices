@@ -4,6 +4,7 @@ import (
 	"github.com/AdityaByte/order-service/internal/domain"
 	"github.com/AdityaByte/order-service/internal/dto"
 	"github.com/AdityaByte/order-service/internal/repository"
+	"github.com/google/uuid"
 )
 
 func PlaceOrder(orderRequest *dto.OrderRequest) error {
@@ -13,7 +14,7 @@ func PlaceOrder(orderRequest *dto.OrderRequest) error {
 		// here we have to fetch the items one by one and
 		orderListItem := orderRequest.OrderLineItemsDtoList[i]
 		newOrderListItem := domain.OrderLineItems{
-			Id:       orderListItem.Id,
+			Id:       uuid.New(),
 			SkuCode:  orderListItem.SkuCode,
 			Price:    orderListItem.Price,
 			Quantity: orderListItem.Quantity,
